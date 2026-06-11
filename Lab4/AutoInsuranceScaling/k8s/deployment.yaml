@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auto-insurance-server
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: auto-insurance-server
+  template:
+    metadata:
+      labels:
+        app: auto-insurance-server
+    spec:
+      containers:
+        - name: backend
+          image: auto-insurance-server:lab4
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 10000
+          env:
+            - name: PORT
+              value: "10000"
+            - name: NODE_ENV
+              value: "production"
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: auto-insurance-secrets
+                  key: MONGODB_URI
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 10000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 10000
+            initialDelaySeconds: 15
+            periodSeconds: 20

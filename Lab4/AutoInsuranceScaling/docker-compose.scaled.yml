@@ -1,0 +1,55 @@
+services:
+  app1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: auto-insurance-app-1
+    env_file:
+      - .env
+    environment:
+      PORT: 10000
+      INSTANCE_ID: app-1
+    expose:
+      - "10000"
+    restart: unless-stopped
+
+  app2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: auto-insurance-app-2
+    env_file:
+      - .env
+    environment:
+      PORT: 10000
+      INSTANCE_ID: app-2
+    expose:
+      - "10000"
+    restart: unless-stopped
+
+  app3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: auto-insurance-app-3
+    env_file:
+      - .env
+    environment:
+      PORT: 10000
+      INSTANCE_ID: app-3
+    expose:
+      - "10000"
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: auto-insurance-nginx-scaled
+    depends_on:
+      - app1
+      - app2
+      - app3
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/nginx.scaled.conf:/etc/nginx/nginx.conf:ro
+    restart: unless-stopped

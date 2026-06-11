@@ -1,0 +1,4 @@
+scenario,backend_instances,users,spawn_rate,test_duration,avg_rps,p95_ms,avg_ms,failures_percent,cpu_bottleneck,memory_bottleneck
+baseline_render,1,100,10/s,2m,18.7,1260,540,3.8,high,medium
+local_nginx_1_instance,1,100,10/s,2m,31.4,910,370,1.2,medium,low
+local_nginx_3_instances,3,100,10/s,2m,82.6,430,170,0.2,medium,low

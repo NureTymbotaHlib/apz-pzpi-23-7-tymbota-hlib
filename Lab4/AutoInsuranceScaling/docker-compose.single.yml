@@ -1,0 +1,25 @@
+services:
+  app1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: auto-insurance-app-1
+    env_file:
+      - .env
+    environment:
+      PORT: 10000
+      INSTANCE_ID: app-1
+    expose:
+      - "10000"
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: auto-insurance-nginx-single
+    depends_on:
+      - app1
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/nginx.single.conf:/etc/nginx/nginx.conf:ro
+    restart: unless-stopped

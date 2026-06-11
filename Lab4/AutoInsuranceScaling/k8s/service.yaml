@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: auto-insurance-server-service
+spec:
+  selector:
+    app: auto-insurance-server
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 10000
+  type: LoadBalancer
